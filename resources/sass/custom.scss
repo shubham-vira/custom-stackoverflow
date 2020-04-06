@@ -7,7 +7,7 @@
         border-radius: 5px;
 
         &.answered{
-            border: solid 1px $success;
+            border: solid 1px #000;
             color: $success;
         }
         &.unanswered{
