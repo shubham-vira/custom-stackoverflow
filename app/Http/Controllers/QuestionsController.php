@@ -10,7 +10,7 @@ class QuestionsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth'])->only(['create','store']);
+        $this->middleware(['auth'])->except(['index','show']);
 
     }
 
@@ -76,6 +76,7 @@ class QuestionsController extends Controller
     public function edit(Question $question)
     {
         //
+        return view('questions.edit',compact("question"));
     }
 
     /**
@@ -88,6 +89,13 @@ class QuestionsController extends Controller
     public function update(Request $request, Question $question)
     {
         //
+        $question->update([
+            "title" => $request->title,
+            "body" => $request->body,
+        ]);
+
+        session()->flash('success','Question has been Modified successfully');
+        return redirect(route('questions.index'));
     }
 
     /**

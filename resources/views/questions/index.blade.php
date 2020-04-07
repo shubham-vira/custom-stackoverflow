@@ -32,6 +32,12 @@
 
                                 </div>
                                 <div class="media-body">
+
+                                    <div class="d-flex justify-content-between">
+                                        <h4><a href="{{$question->url}}">{{$question->title}}</a></h4>
+                                        <a href="{{route('questions.edit',$question->id)}}" class="btn btn-sm btn-outline-info">Edit</a>
+                                    </div>
+
                                     <h4><a href="{{$question->url}}">{{$question->title}}</a></h4>
                                     <p>
                                         Asked by: <a href="#">{{$question->owner->name}}</a>
