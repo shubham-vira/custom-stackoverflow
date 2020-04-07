@@ -73,13 +73,14 @@ class QuestionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Question  $question
+     * @param  \App\Question $question
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Question $question)
     {
         //
-        if ($this->authorize('edit',$question)) {
+        if ($this->authorize('update',$question)) {
             return view('questions.edit',compact("question"));
         }
         abort(430, 'Access Denied');
