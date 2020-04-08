@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -14,7 +17,23 @@
                     {{--TO DISPLAY THE USER INFO OF THE OWNER--}}
 
                     <div class="d-flex justify-content-between">
-                        <div></div>
+                        <div class="d-flex">
+                            <div>
+                                <a href="" title="up vote" class="d-block text-dark text-center">
+                                    <i class="fa fa-caret-up fa-3x"></i>
+                                </a>
+                                <h4 class="text-dark m-0 text-center">{{ $question->votes_count }}</h4>
+                                <a href="" title="up vote" class="d-block text-dark text-center">
+                                    <i class="fa fa-caret-down fa-3x"></i>
+                                </a>
+                            </div>
+                            <div class="ml-5 mt-4">
+                                <a href="" class="d-block text-center">
+                                    <i class="fa fa-star text-dark fa-2x"></i>
+                                </a>
+                                <h4 class="text-dark mt-0">45</h4>
+                            </div>
+                        </div>
                         <div class="d-flex flex-column">
                             <div class="text-muted flex-column">
                                 Asked : {{ $question->created_date }}
@@ -33,40 +52,9 @@
                 </div>
             </div>
             {{--ANSWERS--}}
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="m-0">
-                                {{ $question->answers_count }} {{ Str::plural('Answer', $question->answer_count) }}
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            @foreach($question->answers as $answer)
-                                {!! $answer->body!!}
-                                <div class="d-flex justify-content-between">
-                                    <div></div>
-                                    <div class="d-flex flex-column">
-                                        <div class="text-muted flex-column">
-                                            Asked : {{ $answer->created_date }}
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <div >
-                                                <img src="{{$answer->author->avatar}}" alt="{{$answer->author->name}}">
-                                            </div>
-                                            <div class="mt-2 ml-2">
-                                                {{ $answer->author->name }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
         </div>
+@include('answers._index')
     </div>
 @endsection
