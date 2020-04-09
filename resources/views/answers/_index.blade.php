@@ -20,9 +20,18 @@
                             </div>
 
                             <div class="mt-2">
-                                <a href="#" title="mark as best" class="d-block text-dark text-center">
-                                    <i class="fa fa-check fa-2x"></i>
-                                </a>
+                                @can('markAsBest', $answer)
+                                    <form action="{{ route('answers.bestAnswer', $answer->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn">
+                                            <i class="fa fa-check fa-2x {{ $answer->best_answer_status  }}" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    @if($answer->is_best)
+                                        <i class="fa fa-check fa-2x text-success"></i>
+                                    @endif
+                                @endcan
 
                             </div>
                         </div>
