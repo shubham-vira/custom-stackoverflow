@@ -16,19 +16,52 @@
                     <div class="d-flex justify-content-between">
                         <div class="d-flex">
                             <div>
-                                <a href="" title="up vote" class="d-block text-dark text-center">
-                                    <i class="fa fa-caret-up fa-3x"></i>
-                                </a>
-                                <h4 class="text-dark m-0 text-center">{{ $question->votes_count }}</h4>
-                                <a href="" title="up vote" class="d-block text-dark text-center">
-                                    <i class="fa fa-caret-down fa-3x"></i>
-                                </a>
+                                @auth
+                                    <form action="{{route('questions.vote',[$question->id, 1])}}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn {{auth()->user()->hasQuestionUpVote($question) ? 'text-dark' : 'text-black-50'}}">
+                                            <i class="fa fa-caret-up fa-3x"></i>
+                                        </button>
+                                    </form>
+
+                                @else
+                                    <a href="{{route('login')}}" class="d-block text-black-50 text-center">
+                                        <i class="fa fa-caret-up fa-3x"></i>
+                                    </a>
+                                @endauth
+
+                                <h4 class="text-dark m-0 text-center"> {{ $question->votes_count }}</h4>
+                                @auth
+                                    <form action="{{route('questions.vote',[$question->id, -1])}}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn {{auth()->user()->hasQuestionDownVote($question) ? 'text-dark' : 'text-black-50'}}">
+                                            <i class="fa fa-caret-down fa-3x"></i>
+                                        </button>
+                                    </form>
+
+                                @else
+                                    <a href="{{route('login')}}" class="d-block text-black-50 text-center">
+                                        <i class="fa fa-caret-down fa-3x"></i>
+                                    </a>
+                                @endauth
                             </div>
-                            <div class="ml-5 mt-4">
-                                <a href="" class="d-block text-center">
-                                    <i class="fa fa-star text-dark fa-2x"></i>
-                                </a>
-                                <h4 class="text-dark mt-0">45</h4>
+                            <div class="ml-5 mt-2 {{$question->is_favorite ? 'text-warning' : 'text-dark'}}">
+                                @can( 'markAsFavorite' ,$question)
+                                    <form action="{{route($question->is_favorite ? 'questions.unfavorite': 'questions.favorite',$question->id) }}" method="POST">
+                                        @if($question->is_favorite)
+                                            @method('DELETE')
+                                        @endif
+                                        @csrf
+                                        <button type="submit" class="btn {{$question->is_favorite ? 'text-warning' : 'text-dark'}}">
+                                            <i class="fa {{$question->is_favorite ? 'fa-star ' : 'fa-star-o'}} fa-2x "></i>
+                                        </button>
+                                        <h4 class="text-center m-0">{{$question->favorites_count}}</h4>
+                                    </form>
+                                @else
+                                    <i class="fa fa-star-o fa-2x text-warning d-block"></i>
+                                    <h4 class="text-center text-warning m-0">{{$question->favorites_count}}</h4>
+                                @endcan
+
                             </div>
                         </div>
                         <div class="d-flex flex-column">

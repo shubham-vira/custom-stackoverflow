@@ -93,4 +93,13 @@ class QuestionPolicy
     {
         //
     }
+
+    /**
+     * @param User $user
+     * @param Question $question
+     * @return bool
+     */
+    public function markAsFavorite(User $user, Question $question){
+        return $user->id != $question->user_id;
+    }
 }
